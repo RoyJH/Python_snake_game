@@ -16,9 +16,14 @@ class Scoreboard(Turtle):
     def keep_score(self):
         score = self.score
         self.sety(280)
-        self.write(arg=f"Score: {score}", align="center", font=("Arial", 12, "normal"))
+        self.write(arg=f"Score: {score}", align="center", font=("Centaur", 14, "normal"))
 
     def add_point(self):
         self.clear()
         self.score += 1
         self.keep_score()
+
+    def game_over(self):
+        self.home()
+        self.write(arg="Game Over", align="center", font=("Centaur", 14, "bold"))
+

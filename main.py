@@ -45,4 +45,5 @@ while game_is_running:
         screen.update()
     game_is_running = jake.check_snake()
 flash()
+score.game_over()
 screen.exitonclick()

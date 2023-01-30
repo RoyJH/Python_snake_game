@@ -12,6 +12,7 @@ for num in range(-280, 281):
 
 
 class Snake:
+
     def __init__(self):
         self.segments = []
         self.create_snake()
@@ -19,11 +20,17 @@ class Snake:
 
     def create_snake(self):
         for position in STARTING_POSITIONS:
-            new_segment = Turtle("square")
-            new_segment.color("white")
-            new_segment.penup()
-            new_segment.goto(position)
-            self.segments.append(new_segment)
+            self.add_segment(position)
+
+    def add_segment(self, position):
+        new_segment = Turtle("square")
+        new_segment.color("white")
+        new_segment.penup()
+        new_segment.goto(position)
+        self.segments.append(new_segment)
+
+    def grow_snake(self):
+        self.add_segment(self.segments[-1].pos())
 
     def move(self):
         for seg_num in range(len(self.segments) - 1, 0, -1):
@@ -50,37 +57,20 @@ class Snake:
 
     def check_bounds(self):
         for segment in self.segments:
-            if segment.xcor() < -300 or segment.xcor() > 300 or segment.ycor() < -300 or segment.ycor() > 300:
+            if segment.xcor() < -290 or segment.xcor() > 290 or segment.ycor() < -290 or segment.ycor() > 290:
                 print("You've gone out of bounds....")
                 game_is_running = False
                 return game_is_running
-            else:
-                return True
-
-    def grow_snake(self):
-        position = self.segments[len(self.segments)-1].pos()
-        new_segment = Turtle("square")
-        new_segment.color("white")
-        new_segment.penup()
-        new_segment.goto(position)
-        self.segments.append(new_segment)
 
     def check_self(self):
-        for segment in self.segments:
-            if segment.distance(self.head.pos()) < 2:
-                if segment == self.head:
-                    pass
-                elif segment != self.head:
-                    print("You ate yourself...")
-                    game_is_running = False
-                    return game_is_running
-                else:
-                    print("This shouldn't happen")
+        for segment in self.segments[1:]:
+            if self.head.distance(segment) < 10:
+                print("You ate yourself...")
+                game_is_running = False
+                return game_is_running
 
     def check_snake(self):
-        myself = self.check_self()
-        bounds = self.check_bounds()
-        if myself is False or bounds is False:
+        if self.check_self() is False or self.check_bounds() is False:
             return False
         else:
             return True
