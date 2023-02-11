@@ -59,18 +59,26 @@ class Snake:
         for segment in self.segments:
             if segment.xcor() < -290 or segment.xcor() > 290 or segment.ycor() < -290 or segment.ycor() > 290:
                 print("You've gone out of bounds....")
-                game_is_running = False
-                return game_is_running
+                reset_game = False
+                return reset_game
 
     def check_self(self):
         for segment in self.segments[1:]:
             if self.head.distance(segment) < 10:
                 print("You ate yourself...")
-                game_is_running = False
-                return game_is_running
+                reset_game = False
+
+                return reset_game
+
+    def snake_reset(self):
+        for segment in self.segments:
+            segment.goto(-1000, -1000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
 
     def check_snake(self):
         if self.check_self() is False or self.check_bounds() is False:
-            return False
-        else:
             return True
+        else:
+            return False
